@@ -1,0 +1,31 @@
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS files
+.DS_Store
+
+# Virtual environments
+venv/
+.venv/
+
+# Ignore data files
+data/
+
+# Ignore DuckDB files
+*.duckdb
+
+db/
+
+# Editor swap/backup files
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+
+*.png
+*.csv
