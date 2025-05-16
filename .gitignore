@@ -15,6 +15,9 @@ venv/
 # Ignore data files
 data/
 
+# Ignore output files
+outputs/
+
 # Ignore DuckDB files
 *.duckdb
 
@@ -29,3 +32,4 @@ db/
 
 *.png
 *.csv
+*.html
