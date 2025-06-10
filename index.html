@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Gradient: Oslo Bike Share Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .header .author {
+            font-size: 1.1em;
+            color: #34495e;
+        }
+
+        /* Section Headers */
+        h2 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin: 40px 0 20px 0;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: #34495e;
+            margin: 30px 0 15px 0;
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: #34495e;
+            margin: 25px 0 10px 0;
+        }
+
+        /* Paragraphs */
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* Lists */
+        ul {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Images */
+        .figure {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .figure img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .figure .caption {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-size: 0.95em;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Key findings box */
+        .findings-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .findings-box h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        /* Links */
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        .footer .contact {
+            margin-top: 20px;
+        }
+
+        .footer .contact a {
+            margin: 0 15px;
+            font-weight: 500;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .figure img {
+                border-radius: 4px;
+            }
+        }
+
+        /* Code/tech stack styling */
+        .tech-stack {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 20px 0;
+        }
+
+        /* Highlight important numbers */
+        .stat {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        /* Interactive iframe */
+        iframe {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Project Gradient</h1>
+            <div class="subtitle">Understanding Oslo's Bike Sharing System</div>
+            <div class="author">Analysis by Harald Thommesen</div>
+        </div>
+
+        <!-- Introduction -->
+        <h2>Introduction</h2>
+        <p>Oslo's bike sharing system <em>Bysykkel</em> is a convenient and popular way to get across town. It can
+            dramatically shorten commuting times and at the same time it is fun and healthy to use. As a trusted user of
+            this
+            system myself, I often noticed how bike stations downtown tend to fill up, while stations further out tend
+            to
+            run out of bikes. This behavior sparked my curiosity and my gut feeling was that this pattern is caused by
+            Oslo's
+            topography, gently sloping from downtown areas at the waterfront upwards to residential areas. I got the
+            suspicion that people are
+            simply too lazy to bike up again. I set out to prove it. </p>
+
+        <h3>Project Goal</h3>
+        <p>The goal of this project is to investigate how the topography of Oslo affects the flow of bikes. Furthermore,
+            I am trying to understand how the system works, how the network is structured, and if there are clear
+            temporal patterns in the flow of bikes. To make this approach more structured, I am trying to answer the
+            following questions:</p>
+        <ul>
+            <li>How does topography affect the flow of bikes?</li>
+            <li>Which stations are most important to the network?</li>
+            <li>What are the most popular routes?</li>
+            <li>What temporal patterns are hidden in the data?</li>
+        </ul>
+
+        <h3>The Dataset</h3>
+        <p>Historical data can be freely accessed (<a href="https://oslobysykkel.no/apne-data/historisk"
+                target="_blank">Oslo Bysykkel Historical Data</a>) and dates back all the way to 2019. The data is
+            structured in CSV files, one for each month, and contains records of all rides carried out during that
+            month. Each row in the dataset represents one ride and includes the following information: </p>
+        <ul>
+            <li>Start / end station name (and unique id)</li>
+            <li>Start / end station coordinates</li>
+            <li>Trip duration</li>
+            <li>Trip start / end time</li>
+        </ul>
+        <p></p>
+
+        <h3>Methodology</h3>
+        <p>The full analysis with all the nitty gritty details can be found on my GitHub page. This article will only
+            concentrate on the findings and the results, and won't bore you with how I got there. The project was done
+            in a Python Jupyter Notebook using SQL and DuckDB for data handling and cleaning, and seaborn, matplotlib
+            and Folium for data visualization. For all the details, see here:</p>
+        <ul>
+            <li>Project page on GitHub: <a href="https://github.com/haraltho/oslo-bike-sharing-analysis"
+                    target="_blank">Project Gradient</a></li>
+            <li>Jupyter Notebook: <a
+                    href="https://github.com/haraltho/oslo-bike-sharing-analysis/blob/main/notebooks/analysis.ipynb"
+                    target="_blank">Jupyter Notebook</a></li>
+        </ul>
+
+        <h3>Project Structure</h3>
+        <p>This article is structured as follows: I will start out by investigating how the topography of Oslo affects
+            the flow of bikes <a href="#topographical">Topographical Analysis</a>. Afterwards, in <a
+                href="#network">Network Structure Analysis</a>, I will investigate how the network structure is built up
+            and what the most important
+            stations and bike pathways are. Finally, in <a href="#temporal">Temporal Pattern Analysis</a> I will examine
+            what
+            temporal patterns are hidden in the flow of bikes.</p>
+
+        <!-- Topographical Analysis -->
+        <h2 id="topographical">1. Topographical Flow Analysis</h2>
+        <!-- Add your topographical analysis content here -->
+
+        <!-- Network Analysis -->
+        <h2 id="network">2. Network Structure Analysis</h2>
+        <!-- Add your network analysis content here -->
+
+        <!-- Temporal Analysis -->
+        <h2 id="temporal">3. Temporal Pattern Analysis</h2>
+        <!-- Add your temporal analysis content here -->
+
+        <!-- Conclusions -->
+        <h2>4. Conclusions</h2>
+        <!-- Add your conclusions here -->
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="contact">
+                <a href="mailto:harald.thommesen@outlook.com">Email</a>
+                <a href="https://www.linkedin.com/in/h-thommesen/">LinkedIn</a>
+                <a href="https://github.com/your-username/project-gradient">GitHub</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
