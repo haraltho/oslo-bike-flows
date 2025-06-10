@@ -211,6 +211,42 @@
             <div class="author">Analysis by Harald Thommesen</div>
         </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- Introduction -->
         <h2>Introduction</h2>
         <p>Oslo's bike sharing system <em>Bysykkel</em> is a convenient and popular way to get across town. It can
@@ -240,7 +276,8 @@
         <p>Historical data can be freely accessed (<a href="https://oslobysykkel.no/apne-data/historisk"
                 target="_blank">Oslo Bysykkel Historical Data</a>) and dates back all the way to 2019. The data is
             structured in CSV files, one for each month, and contains records of all rides carried out during that
-            month. Each row in the dataset represents one ride and includes the following information: </p>
+            month. Each row in the dataset represents one ride and includes the following information (list not
+            exhaustive): </p>
         <ul>
             <li>Start / end station name (and unique id)</li>
             <li>Start / end station coordinates</li>
@@ -264,16 +301,216 @@
 
         <h3>Project Structure</h3>
         <p>This article is structured as follows: I will start out by investigating how the topography of Oslo affects
-            the flow of bikes <a href="#topographical">Topographical Analysis</a>. Afterwards, in <a
+            the flow of bikes in <a href="#topographical">Topographical Analysis</a>. Afterwards, in <a
                 href="#network">Network Structure Analysis</a>, I will investigate how the network structure is built up
             and what the most important
-            stations and bike pathways are. Finally, in <a href="#temporal">Temporal Pattern Analysis</a> I will examine
+            stations and bike pathways are. Finally, in <a href="#temporal">Temporal Pattern Analysis</a>, I will
+            examine
             what
             temporal patterns are hidden in the flow of bikes.</p>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- Topographical Analysis -->
         <h2 id="topographical">1. Topographical Flow Analysis</h2>
-        <!-- Add your topographical analysis content here -->
+        <p>In order to investigate the effect of elevation on cyclists' willingness to pedal up the hill back home, I
+            first had
+            to
+            enrich the data with additional features:</p>
+        <ul>
+            <li>the <strong>elevation</strong> for each station using a free API</li>
+            <li>the <strong>distance</strong> between the start and end station (as the crow flies, since I can't know
+                what
+                route the user had taken)</li>
+            <li>the <strong>gradient</strong> of the trip</li>
+        </ul>
+        <p>Using these values, I can start to form an idea on cycling behavior.</p>
+
+        <h3>Do cyclists prefer downhill trips?</h3>
+        <p>This question can best be answered by looking at the distribution of gradients for all trips, and see whether
+            this distribution is skewed towards uphill or downhill travel, or if it is unbiased.</p>
+
+        <div class="figure">
+            <img src="images/gradient_distribution.png" alt="Gradient distribution">
+            <div class="caption">Figure 1: Distribution of trip gradients is skewed towards negative values, indicating
+                downhill
+                travel is more popular than uphill. The peak at 0% likely represents flat waterfront routes.</div>
+        </div>
+        <p>The distribution above clearly shows that downhill travel is more prevalent than uphill travel, since it is
+            visually skewed towards negative values. Another feature that strikes the eye is a pronounced spike at
+            gradient 0%, which likely represents popular rides along flat waterfront paths. The analysis revealed the
+            following statistics: </p>
+        <ul>
+            <li><strong>Downhill trips</strong>: 59.6% of all rides (gradient < 0%)</li>
+            <li><strong>Uphill trips</strong>: 38.8% of all rides (gradient > 0%)</li>
+            <li><strong>Flat trips</strong>: 1.6% of all rides (gradient = 0%)</li>
+            <li><strong>Mean gradient</strong>: -0.44%</li>
+        </ul>
+        <p>These numbers strongly support the idea that downhill travel is more popular, but we can dig deeper.</p>
+
+
+        <h3>Trip characteristics by slope</h3>
+        <p>Counting uphill vs. downhill trips alone might be misleading or not show the full picture. While downhill
+            trips could be more <em>frequent</em>, more <em>time</em> could actually be spent on uphill trips, since
+            these tend to take longer. To answer this question, I split the data into uphill, downhill, and flat trips,
+            and examine the individual distributions for duration and distance. </p>
+
+
+        <div class="figure">
+            <img src="images/duration_distance_by_gradient.png" alt="Trip duration and distance by gradient">
+            <div class="caption">Figure 2: Trip duration and distance distribution by gradient direction (log scale).
+                Downhill trips (green) are not only more frequent but also cover greater distances and longer durations
+                than uphill trips (orange).</div>
+        </div>
+
+        <p>The figure above clearly demonstrates that downhill travel is more popular across several metrics. To be
+            specific:</p>
+        <ul>
+            <li>Downhill trips account for 37.7% more total ride <strong>time</strong>.</li>
+            <li>Downhill trips cover 68.2% more total <strong>distance</strong>.</li>
+            <li>Uphill trips take on average 11.4% longer per trip.</li>
+            <li>Downhill trips cover 9.7% more distance per trip.</li>
+        </ul>
+
+
+        <h3>The effect of elevation on station balance</h3>
+        <p>The fact that downhill travel prevails has the logical consequence that uphill stations would constantly lose
+            bikes, while they accumulate at downhill ones. To quantify this effect, I compute the <em>net bike flow</em>
+            (i.e. bike flux) for each station. This value quantifies how many bikes a station lost or gained during the
+            course of the year 2024. If a station mainly serves as the starting point for bike rides, it has a negative
+            flux. On the other hand, if a station mainly serves to return bikes, it has a positive flux. According to
+            this logic, these stations can consequently be classified as either an <strong>exporter</strong> or
+            <strong>importer</strong> station.
+        </p>
+
+        <p>Now let's explore whether elevation is the key factor in determining whether a station tends to import or
+            export bikes. To do this, I plot each station's next flux against its elevation and look for patterns in the
+            relationship.</p>
+
+
+        <div class="figure">
+            <img src="images/imbalance_vs_elevation.png" alt="Station imbalance vs elevation">
+            <div class="caption">Figure 3: Station imbalance vs. elevation reveals a clear negative correlation (-0.55).
+                Stations
+                below ~35m elevation consistently import bikes (positive flux) while those above export bikes (negative
+                flux).</div>
+        </div>
+
+        <p>The figure above clearly demonstrates how elevation causes station imbalances in Oslo's bike sharing system.
+            Most stations below ~35m act as importer stations, while the situation above ~35m is reversed: </p>
+
+        <ul>
+            <li><strong>Above ~35m elevation</strong>: Stations predominantly export bikes (negative net flux), losing
+                around 5 to 10 bikes per day.</li>
+            <li><strong>Below ~35m elevation</strong>: Stations predominantly import bikes (positive net flux), gaining
+                up to 30 bikes per day.</li>
+            <li><strong>Correlation</strong>: The relationship has a correlation of -0.55, which indicates a moderately
+                strong relationship between elevation and station balance.</li>
+        </ul>
+
+        <p>This has the consequence that bikes naturally "flow" downhill and accumulate near sea level. This
+            creates an imbalance, where higher elevation stations consistently need bike restocking, while lower
+            elevation ones consistently need bikes removed to create docking space. The ~35m elevation mark acts like
+            a "watershed" for bike flow in the system.</p>
+
+
+        <h3>Geographic distribution of imbalances</h3>
+        <p>Having established that there's a strong relationship between elevation and station imbalance, let's now
+            visualize these imbalances on a map.</p>
+
+        <p>The interactive map below shows all bike stations with:</p>
+
+        <ul>
+            <li><strong>Marker size</strong>: Proportional to total daily usage (larger circles = busier station)</li>
+            <li><strong>Marker color</strong>: Indicates imbalance of the station and magnitude</li>
+            <ul>
+                <li><strong>Red stations</strong>: Net exporters (lose bikes daily, need restocking)</li>
+                <li><strong>Green stations</strong>: Net importers (gain bikes daily, need bike removal)</li>
+                <li><strong>Color intensity</strong>: Darker colors indicate larger daily imbalances</li>
+            </ul>
+        </ul>
+
+        <div class="figure">
+            <div style="text-align: right; margin-bottom: 10px;">
+                <a href="images/oslo_flux_map.html" target="_blank"
+                    style="background-color: #3498db; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; font-size: 0.9em;">🗺️
+                    Open Full Map</a>
+            </div>
+            <iframe src="images/oslo_flux_map_embedded.html" width="100%" height="600" frameborder="0"></iframe>
+            <div class="caption">Figure 4: Interactive map of Oslo's bike station network showing net flux patterns.
+                Green
+                stations import bikes, red stations export them. Click on stations for detailed information, or enlarge
+                map with button above.</div>
+        </div>
+
+        <p>The interactive map above shows the geographic pattern of the imbalanced flow of bikes in the bike sharing
+            system. This map paints the picture very clearly. In the city center near sea level is a large cluster of
+            high-usage importer stations (green), which gobble up a large number of bikes throughout the day and act as
+            <strong>bike sinks</strong>. Around this cluster is a diffuse semicircle of balanced stations where bike in
+            and out flow cancels out. This ring is located at roughly 35m of elevation. Surrounding this is another
+            diffuse ring of exporter stations (red) located at higher elevations in peripheral areas. These act as a
+            large <strong>bike source</strong> and feed bike into the system.
+        </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <!-- Network Analysis -->
         <h2 id="network">2. Network Structure Analysis</h2>
