@@ -405,7 +405,7 @@
         </p>
 
         <p>Now let's explore whether elevation is the key factor in determining whether a station tends to import or
-            export bikes. To do this, I plot each station's next flux against its elevation and look for patterns in the
+            export bikes. To do this, I plot each station's net flux against its elevation and look for patterns in the
             relationship.</p>
 
 
@@ -431,7 +431,7 @@
 
         <p>This has the consequence that bikes naturally "flow" downhill and accumulate near sea level. This
             creates an imbalance, where higher elevation stations consistently need bike restocking, while lower
-            elevation ones consistently need bikes removed to create docking space. The ~35m elevation mark acts like
+            elevation ones consistently need bikes removed to create docking space. The ~35m elevation mark acts as
             a "watershed" for bike flow in the system.</p>
 
 
@@ -470,7 +470,7 @@
             <strong>bike sinks</strong>. Around this cluster is a diffuse semicircle of balanced stations where bike in
             and out flow cancels out. This ring is located at roughly 35m of elevation. Surrounding this is another
             diffuse ring of exporter stations (red) located at higher elevations in peripheral areas. These act as a
-            large <strong>bike source</strong> and feed bike into the system.
+            large <strong>bike source</strong> and feed bikes into the system.
         </p>
 
 
@@ -514,7 +514,57 @@
 
         <!-- Network Analysis -->
         <h2 id="network">2. Network Structure Analysis</h2>
-        <!-- Add your network analysis content here -->
+        <p>The elevation analysis above painted an interesting picture: Bikes flow from higher to lower elevations and
+            thereby create station imbalances. But <em>how exactly</em> do bikes move through the city? Elevation only
+            gives a rough clue of the direction of the flow, but now I want to find out how all those trips connect the
+            city together. By mapping every ride as a connection between stations, I can see which areas in town are
+            busiest and which routes are most popular. </p>
+
+        <p>The interactive map below shows the result of this analysis. Drawn are the 600 most travelled connections.
+            Line width indicates the connection frequency, and station type (exporter/importer) is indicated by marker
+            color. The size of the marker is proportional to station usage. </p>
+
+        <div class="figure">
+            <div style="text-align: right; margin-bottom: 10px;">
+                <a href="images/network_flux_map.html" target="_blank"
+                    style="background-color: #3498db; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; font-size: 0.9em;">🗺️
+                    Open Full Map</a>
+            </div>
+            <iframe src="images/network_flux_map_embedded.html" width="100%" height="600" frameborder="0"></iframe>
+            <div class="caption">Figure 5: Interactive map of Oslo's bike network showing the top 600 most frequent
+                routes (blue lines). Line thickness indicates connection frequency. Click on stations for detailed
+                information, or enlarge
+                map with button above.</div>
+        </div>
+
+        <p>The map above shows that the bike network can be split into two parts: A <strong>core network</strong>, which
+            consists of densely connected central stations such as Aker Brygge, Oslo S. and Torggata. These act as bike
+            importers. They consistently receive more bikes than they send out. This is the zone where the majority of
+            the
+            bike rides take place. Surrounding this core is a <strong>feeder network</strong> of peripheral stations at
+            higher elevations that primarily export bikes downhill into the city center. </p>
+
+        <p>The top routes fall into two categories: There are <strong>leisure routes</strong>, which are short rides
+            along the waterfront, like Oslo S ↔ Vippetangen or Aker Brygge ↔ Frognerstranda. These trips are most
+            frequent, but make up only about 1% of all rides. The bulk of trips are <strong>commuter routes</strong>,
+            which are high-frequency connections between busy stations like Alexander Kiellands Plass ↔ Torggata or
+            Oslo S ↔ Kværnerbyen. These are the backbone of the network. </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <!-- Temporal Analysis -->
         <h2 id="temporal">3. Temporal Pattern Analysis</h2>
@@ -529,7 +579,7 @@
             <div class="contact">
                 <a href="mailto:harald.thommesen@outlook.com">Email</a>
                 <a href="https://www.linkedin.com/in/h-thommesen/">LinkedIn</a>
-                <a href="https://github.com/your-username/project-gradient">GitHub</a>
+                <a href="https://github.com/haraltho/oslo-bike-sharing-analysis">GitHub</a>
             </div>
         </div>
     </div>
