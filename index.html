@@ -211,42 +211,6 @@
             <div class="author">Analysis by Harald Thommesen</div>
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- Introduction -->
         <h2>Introduction</h2>
         <p>Oslo's bike sharing system <em>Bysykkel</em> is a convenient and popular way to get across town. It can
@@ -254,9 +218,10 @@
             this
             system myself, I often noticed how bike stations downtown tend to fill up, while stations further out tend
             to
-            run out of bikes. This behavior sparked my curiosity and my gut feeling was that this pattern is caused by
+            run out of bikes. This behavior sparked my curiosity. My gut feeling was that this pattern is caused by
             Oslo's
-            topography, gently sloping from downtown areas at the waterfront upwards to residential areas. I got the
+            topography, which gently slopes from downtown areas at the waterfront upwards to residential areas. I got
+            the
             suspicion that people are
             simply too lazy to bike up again. I set out to prove it. </p>
 
@@ -553,26 +518,130 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- Temporal Analysis -->
         <h2 id="temporal">3. Temporal Pattern Analysis</h2>
-        <!-- Add your temporal analysis content here -->
+        <p>The analysis so far has averaged patters across the entire year, smoothing out all temporal variations. We
+            now know that there are importer and exporter stations, but <em>when</em> during the day do these exports
+            and imports actually occur? This section explores the timing of these flows.</p>
+
+        <h3>Hourly bike flow</h3>
+        <p>Let's look at how bike flows develop throughout the day. To get an overview of the daily pattern, I grouped
+            the dataset by "hour of day" and then counted the hourly arrivals and departures. This gives us the flow
+            pattern during a day, averaging out any seasonal variations such as winter and summer or weekends and
+            weekdays, retaining only variations caused by the time of day.</p>
+
+        <p>Figure 6 shows the hourly bike flow for the top 5 exporter and importer stations.</p>
+
+        <div class="figure">
+            <img src="images/imbalanced_stations.png" alt="imbalanced stations">
+            <div class="caption">Figure 6: Hourly bike flux for top 5 importer and exporter stations.</div>
+        </div>
+
+        <p>The flow of bikes for the top most imbalanced stations shows some very striking features. All
+            <strong>exporter stations</strong> (red lines) remain largely negative throughout the day, indicating that
+            <strong>bikes mainly flow one-way</strong>. There is a <strong>long morning rush</strong> from 05 to 09
+            o'clock, with some local exceptions: <strong>Lindern (Ullevål Hospital)</strong> features a brief import
+            spike at 06-07 and two large export spikes, one at 15:00 (probably hospital day shift ending) and another at
+            22:00 (evening shift ending). <strong>BI Nydalen</strong> has a brief import spike at 07-08, probably
+            students and employees arriving at the BI campus. The most important feature however is that none of these
+            stations indicates a return of bikes in the evening.
+        </p>
+
+        <p><strong>Importer stations</strong> (green lines) located in the central areas of Oslo show large positive
+            spikes, with peaks reaching 6+ bikes per hour net inflow. After a strong morning influx (07-09) they
+            <strong>sustain high import levels throughout the day. </strong> The afternoon patterns (14-17) are quite
+            variable. <strong>Oslo S and Aker Brygge</strong> spike again, probably because they are major transport
+            hubs and important areas for leisure activities. Other core stations show more variable patterns, with some
+            even briefly exporting bikes. <strong>Torggata is the top evening importer.</strong> This area is a popular
+            destination for evening entertainment, dining and drinks. People bike there after work for social
+            activities.
+        </p>
+
+        <p>Now, lets look at how the hourly bike flow looks like for the top-used balanced stations.</p>
+        <div class="figure">
+            <img src="images/balanced_stations.png" alt="balanced stations">
+            <div class="caption">Figure 7: Hourly bike flux for top 5 balanced stations.</div>
+        </div>
+        <p><strong>Balanced stations</strong> feature the complete opposite behavior. The lines cross y=0, which
+            indicates a two-way flow. There is no persistent directional bias. Bikes flow both in and out throughout the
+            day, with a prominent export spike at 06-09 when people leave for work, and an equally prominent import
+            spike at 15-18 when people return home after work. <strong>Alexander Kiellands Plass</strong> shows the most
+            extreme pattern. A dramatic morning export (-7 bikes/hour) is followed by a strong afternoon import (6+
+            bikes/hour). </p>
+
+
+
+        <h3>Weekday vs. weekend patterns</h3>
+        <p>Let's investigate how the daily flow pattern differs between weekdays and weekends. The question to answer is
+            whether the system is more popular for weekday commutes or weekend leisure rides. First, I will look at the
+            <strong>daily trip count</strong> for each day of the week to see when in the week the majority of rides
+            take place.
+        </p>
+        <div class="figure">
+            <img src="images/weekly_usage_count.png" alt="weekly usage">
+            <div class="caption">Figure 8: Weekly usage pattern shows weekday trips are more frequent than weekend
+                trips.</div>
+        </div>
+        <p>The figure above shows the <strong>average number of rides</strong> by day of the week. While intuition might
+            suggest that the bike sharing system is predominantly used for leisure rides, the plot above paints a
+            different picture. Rides on the weekend are actually <strong>37% less frequent</strong> than on weekdays.
+            This shows that Oslo's bike sharing system is an integrated component in the city's transportation
+            infrastructure and frequently used for commuting trips. </p>
+
+        <p>Now let's examine how the station imbalance patterns we identified earlier differ between weekdays and
+            weekends. Using the same net flow analysis from before, I'll split the data into <strong>weekday</strong>
+            and <strong>weekend</strong> to see if commuter and leisure behavior creates different flow patterns.</p>
+
+        <div class="figure">
+            <img src="images/weekday_vs_weekend.png" alt="weekday vs weekend">
+            <div class="caption">Figure 9: Comparison of weekday vs. weekend flow for extreme stations; weekday flux
+                (left), weekend flux (right).</div>
+        </div>
+
+        <p>The figure above shows the hourly flow pattern for the top importer and exporter stations, evaluated for
+            weekdays on the left and weekends on the right. The weekday flux patterns look <strong>almost
+                identical</strong> to the earlier analysis of the full dataset. The huge morning and afternoon spikes
+            are <strong>primarily a weekday phenomenon</strong>. The net flow on the weekend is a lot smaller than
+            during the week and shows less variation throughout weekend days. </p>
+
 
         <!-- Conclusions -->
         <h2>4. Conclusions</h2>
-        <!-- Add your conclusions here -->
+        <p>This analysis set out to understand how Oslo's bike sharing system really works. It turned out that the
+            movement of bikes is not completely random, but is in fact guided by very predictable patterns. Three
+            important aspects control the movements of bikes around town.</p>
+
+        <p>The <strong>gravity problem</strong>: The topographical analysis showed that cyclists have a strong
+            preference for downhill over uphill travel. 59.6% of all rides go downhill while only 38.8% go uphill.
+            People tend to ride bikes from higher elevations down to lower elevations in the city center, and then take
+            other means of transportation back home. This leads to a depletion of bikes at elevations over ~35 meters,
+            and stations lower than that consistently accumulate bikes. Without proper countermeasures, uphill stations
+            would soon run out of bikes while downhill stations would run out of docking capacity.</p>
+
+        <p><strong>Two-zone structure</strong>: The network analysis showed that the network can be divided into two
+            parts. The first is the <strong>core network</strong> in downtown areas where most of the rides take place.
+            This area acts as a bike sink where stations such as Aker Brygge, Oslo S and Torggata persistently import
+            bikes throughout the day. Surrounding this core network is the <strong>feeder network</strong> of peripheral
+            stations, which primarily export bikes downhill each day. The most popular routes fall into two categories:
+            Short waterfront leisure rides and high-frequency commuter rides between major downtown hubs. </p>
+
+        <p><strong>Weekday travel dominates</strong>: The temporal analysis showed that weekdays dominate the
+            bike-sharing network. Weekday trips are 37% more frequent than weekend trips. Different stations show very
+            different bike fluxes throughout the day. Balanced stations function as large bike exporters in the morning
+            and as large importers in the evening. Downtown stations are mainly importers throughout the entire day,
+            while peripheral stations mainly export. This pattern is much less extreme on weekends and becomes
+            flattened. </p>
+
+        <p>These three effects drive the bike flow in Oslo. Understanding these patterns shows that bike rebalancing in
+            Oslo isn't random maintenance, but a daily battle against gravity. Restocking and bike removal needs follow
+            predictable patterns controlled by time and location. Oslo Bysykkel clearly does a great job managing these
+            challenges. The system works well despite the difficult topography. With insights like these, operators
+            could potentially schedule their trucks even more efficiently and predict which stations will be empty by
+            rush hour, and maybe even prevent those frustrating moments when you can't find a bike or a place to park
+            one.</p>
+
+        <p>This was a fun weekend project and shows the power of data science. Analyses like this allow us to extract
+            patterns from seemingly random datasets and provide answers to concrete questions. </p>
 
         <!-- Footer -->
         <div class="footer">
