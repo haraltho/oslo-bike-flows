@@ -1,6 +1,10 @@
 # Project Gradient: Understanding Oslo's Bike Sharing System
 **Insights from geography, network structure, and time-based patterns**
 
+**Project Links:**
+- [Complete analysis notebook](notebooks/analysis.ipynb) - *Detailed methodology and code*
+- [Interactive report](https://haraltho.github.io/oslo-bike-sharing-analysis/) - *Main findings with interactive maps*
+
 ## Overview
 Oslo's bike-sharing system **Bysykkel** is a popular and practical way to get around the city. As a frequent user, I noticed how bikes often accumulate downtown, and that pattern sparked my curiosity. Since Bysykkel publishes historical ride data, I set out to explore what these data could reveal. In this project, I investigate how **topography, network structure**, and **temporal patterns** influence the system, and what it takes to keep it balanced and useful.
 
@@ -10,8 +14,6 @@ This dataset contains records of all historical bysykkel rides in 2024. Each row
 1. **Topographical flow analysis**  
 2. **Network structure analysis**  
 3. **Temporal pattern analysis**
-
-[View complete analysis here!](notebooks/analysis.ipynb)
 
 ## Analysis highlights
 ### The network at a glance
